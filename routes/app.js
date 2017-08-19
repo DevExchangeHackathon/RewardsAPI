@@ -1,8 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var request = require('request');
+var bodyParser = require('body-parser');
 
-router.get('/', function(req,res, next){
+var accounts =[];
+
+router.get('/accounts', function(req,res, next){
   request({
     uri: 'http://api.devexhacks.com/rewards/accounts',
     headers:{
@@ -15,16 +18,30 @@ router.get('/', function(req,res, next){
     },
 
     function(err, res, body){
+      console.log(body);
+
+
       if(!err && res.statusCode ===200){
-        console.log(body);
+        console.log(res.body);
 
         res.json(body);
+
+        accounts = JSON.parse(res.body)
+        if(accounts.length>0){
+          var refID = accounts[0].rewardsAccountReferenceID;
+          console.log(refID);
+        }
+
       }
       else{
         res.json(err);
       }
     }
   }).pipe(res);
+
 });
+
+
+
 
 module.exports = router;

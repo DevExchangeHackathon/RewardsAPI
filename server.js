@@ -8,7 +8,7 @@ app.get('/', function (req, res) {
   res.send('Rewards')
 })
 
-app.use('/api',require('./routes/app.js'),function(req,res){
+app.use('/rewards',require('./routes/app.js'),function(req,res){
   console.log('running api');
   next()
 }, function (req,res,next){
